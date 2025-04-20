@@ -1,38 +1,14 @@
 import 'package:flutter/material.dart';
-import 'temperature_converter_widget.dart';
+import 'package:provider/provider.dart';
+import 'provider/login.provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      String username = _usernameController.text;
-      String password = _passwordController.text;
-
-      if (username == "Konversi_suhu" && password == "suhu") {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const TemperatureConverter()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Username atau Password salah!")),
-        );
-      }
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final loginCtrl = Provider.of<LoginController>(context);
+
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       body: Center(
@@ -43,14 +19,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(
-              key: _formKey,
+              key: loginCtrl.formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.lock, size: 60, color: Colors.blueGrey),
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: _usernameController,
+                    controller: loginCtrl.usernameController,
                     decoration: const InputDecoration(
                       labelText: "Username",
                       border: OutlineInputBorder(),
@@ -60,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _passwordController,
+                    controller: loginCtrl.passwordController,
                     decoration: const InputDecoration(
                       labelText: "Password",
                       border: OutlineInputBorder(),
@@ -71,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: _login,
+                    onPressed: () => loginCtrl.login(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueGrey[700],
                       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),

@@ -1,38 +1,13 @@
 import 'package:flutter/material.dart';
-import 'temperature_converter_logic.dart';
+import 'package:provider/provider.dart';
+import 'provider/suhu.provider.dart';
 
-class TemperatureConverter extends StatefulWidget {
+class TemperatureConverter extends StatelessWidget {
   const TemperatureConverter({super.key});
 
-  @override
-  _TemperatureConverterState createState() => _TemperatureConverterState();
-}
+  Widget _buildTemperatureInput(BuildContext context, String unit, IconData icon, Color color) {
+    final controller = Provider.of<TemperatureController>(context);
 
-class _TemperatureConverterState extends State<TemperatureConverter> {
-  final Map<String, TextEditingController> _controllers = {
-    'Celsius': TextEditingController(),
-    'Fahrenheit': TextEditingController(),
-    'Kelvin': TextEditingController(),
-    'Reamur': TextEditingController(),
-  };
-
-  final List<String> _units = ['Celsius', 'Fahrenheit', 'Kelvin', 'Reamur'];
-
-  void _convert(String fromUnit, String value) {
-    if (value.isEmpty) return;
-
-    double inputValue = double.tryParse(value) ?? 0.0;
-
-    setState(() {
-      for (var unit in _units) {
-        if (unit == fromUnit) continue; // Skip unit yang sama
-        double result = convertTemperature(inputValue, fromUnit, unit);
-        _controllers[unit]!.text = result.toStringAsFixed(2);
-      }
-    });
-  }
-
-  Widget _buildTemperatureInput(String unit, IconData icon, Color color) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 6,
@@ -45,7 +20,7 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
             Icon(icon, color: color, size: 40),
             const SizedBox(height: 10),
             TextField(
-              controller: _controllers[unit],
+              controller: controller.controllers[unit],
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
@@ -53,7 +28,7 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
                 labelStyle: TextStyle(color: color, fontWeight: FontWeight.bold),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              onChanged: (value) => _convert(unit, value),
+              onChanged: (value) => controller.convert(unit, value),
             ),
           ],
         ),
@@ -63,6 +38,8 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
 
   @override
   Widget build(BuildContext context) {
+    final tempController = Provider.of<TemperatureController>(context);
+
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
@@ -77,10 +54,10 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
           children: [
-            _buildTemperatureInput('Celsius', Icons.thermostat, Colors.red),
-            _buildTemperatureInput('Fahrenheit', Icons.thermostat_auto, Colors.blue),
-            _buildTemperatureInput('Kelvin', Icons.device_thermostat, Colors.green),
-            _buildTemperatureInput('Reamur', Icons.waves, Colors.orange),
+            _buildTemperatureInput(context, 'Celsius', Icons.thermostat, Colors.red),
+            _buildTemperatureInput(context, 'Fahrenheit', Icons.thermostat_auto, Colors.blue),
+            _buildTemperatureInput(context, 'Kelvin', Icons.device_thermostat, Colors.green),
+            _buildTemperatureInput(context, 'Reamur', Icons.waves, Colors.orange),
           ],
         ),
       ),
