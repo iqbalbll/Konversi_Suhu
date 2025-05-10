@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816181607172",
+    "project_id": "konversi-suhu-f00d6",
+    "storage_bucket": "konversi-suhu-f00d6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816181607172:android:9b5e63020fb1bace9f6e51",
+        "android_client_info": {
+          "package_name": "com.example.konversi_suhu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk6dLs614M1G1nJVYf33k4zeHE4xnIRks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

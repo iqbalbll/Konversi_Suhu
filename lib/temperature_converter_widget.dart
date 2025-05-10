@@ -38,8 +38,7 @@ class TemperatureConverter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tempController = Provider.of<TemperatureController>(context);
-
+    
     return Scaffold(
       backgroundColor: Colors.blueGrey[100],
       appBar: AppBar(
